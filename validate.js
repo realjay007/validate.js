@@ -91,6 +91,10 @@
         attributes = v.collectFormValues(attributes);
       }
 
+      // Initialise exit on first fail check
+      var brk = false;
+      options.exitOnFirstFail = options.exitOnFirstFail || false;
+
       // Loops through each constraints, finds the correct validator and run it.
       for (attr in constraints) {
         value = v.getDeepObjectValue(attributes, attr);
@@ -119,6 +123,13 @@
           if (!validatorOptions) {
             continue;
           }
+          var err_msg = validator.call(validator,
+            value,
+            validatorOptions,
+            attr,
+            attributes,
+          	options
+          );
           results.push({
             attribute: attr,
             value: value,
@@ -126,15 +137,19 @@
             globalOptions: options,
             attributes: attributes,
             options: validatorOptions,
-            error: validator.call(validator,
-                value,
-                validatorOptions,
-                attr,
-                attributes,
-                options)
+            error: err_msg
           });
+          if(!v.isEmpty(err_msg) && options.exitOnFirstFail) {
+          	brk = true;
+          	break;
+          }
+        }
+        if(brk) {
+        	break;
         }
       }
+
+      delete options.exitOnFirstFail;
 
       return results;
     },
