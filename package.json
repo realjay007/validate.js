@@ -8,7 +8,7 @@
   "homepage": "http://validatejs.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ansman/validate.js.git"
+    "url": "https://github.com/realjay007/validate.js.git"
   },
   "files": [
     "typings.json",
