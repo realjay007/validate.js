@@ -10,6 +10,7 @@ declare namespace validate {
     wrapErrors?: Function;
     prettify?: Function;
     cleanAttributes?: boolean;
+    exitOnFirstFail?: boolean;
   }
 
   export interface CollectFormValuesOption {
